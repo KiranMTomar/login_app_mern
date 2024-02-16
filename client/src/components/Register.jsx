@@ -3,8 +3,13 @@ import { Toaster } from 'react-hot-toast';
 import { registerValidation } from '../helper/validate';
 import { useFormik } from 'formik';
 import { Link} from 'react-router-dom'
+import avatar from '../assets/profile.png';
+import { useState } from 'react';
+import convertToBase64 from '../helper/convert';
 
 const Register = () => {
+  const [ file, setFile ] = useState('');
+
   const formik = useFormik({
     initialValues : {
       email: 'doyol56239@cnogs.com',
@@ -15,8 +20,8 @@ const Register = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit : async values => {
+      values = await Object.assign(values, { profile : file || ''})
       console.log(values)
-      // values = await Object.assign(values, { profile : file || ''})
       // let registerPromise = registerUser(values)
       // toast.promise(registerPromise, {
       //   loading: 'Creating...',
@@ -27,10 +32,10 @@ const Register = () => {
       // registerPromise.then(function(){ navigate('/')});
     }
   })
-  // const onUpload = async e => {
-  //   const base64 = await convertToBase64(e.target.files[0]);
-  //   setFile(base64);
-  // }
+  const onUpload = async e => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setFile(base64);
+  }
   return (
     <div className="container mx-auto">
     <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -45,9 +50,9 @@ const Register = () => {
         <form className='py-1' onSubmit={formik.handleSubmit}>
             <div className='profile flex justify-center py-4'>
                 <label htmlFor="profile">
-                  <img className={styles.profile_img} alt="avatar" />
+                  <img src={ file ||avatar} className={styles.profile_img} alt="avatar" />
                 </label>
-                <input  type="file" id='profile' name='profile' />
+                <input onChange={onUpload}  type="file" id='profile' name='profile' />
             </div>
             <div className="textbox flex flex-col items-center gap-6">
                 <input {...formik.getFieldProps('email')} className={styles.textbox} type="text" placeholder='Email*' />
