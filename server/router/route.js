@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "../controllers/appController.js";
-
+import Auth from "../middleware/auth.js";
 const router = Router();
 
 /** import controller */
@@ -9,7 +9,7 @@ const router = Router();
 router.route("/register").post(controller.register)
 // router.route("/registerMail").post()
 router.route("/authenticate").post(( req, res ) => res.end())
-router.route("/login").post(controller.login)
+router.route("/login").post(controller.verifyUser, controller.login)
 
 /** GET methods */
 router.route("/user/:username").get(controller.getUser)
