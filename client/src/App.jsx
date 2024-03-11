@@ -1,18 +1,17 @@
-import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import PageNotFound  from './components/PageNotFound'
-import  Register  from './components/Register'
-import  Reset  from './components/Reset'
-import  Password  from './components/Password'
-import  Recovery  from './components/Recovery'
-import  Username  from './components/Username'
-import  Profile  from './components/Profile'
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import PageNotFound from "./components/PageNotFound";
+import Register from "./components/Register";
+import Reset from "./components/Reset";
+import Password from "./components/Password";
+import Recovery from "./components/Recovery";
+import Username from "./components/Username";
+import Profile from "./components/Profile";
 
-
- const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: <Username/>,
+    element: <Username />,
   },
   {
     path: "/register",
@@ -24,29 +23,28 @@ import  Profile  from './components/Profile'
   },
   {
     path: "/profile",
-    element: <Profile/>,
+    element: <Profile />,
   },
   {
     path: "/recovery",
-    element: <Recovery/>,
+    element: <Recovery />,
   },
   {
     path: "/reset",
-    element: <Reset/>,
+    element: <Reset />,
   },
   {
     path: "*",
     element: <PageNotFound />,
   },
- ])
+]);
 
 function App() {
-
   return (
     <main>
       <RouterProvider router={router}></RouterProvider>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

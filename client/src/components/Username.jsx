@@ -4,25 +4,24 @@ import styles from "../styles/Username.module.css";
 import { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
 import { usernameValidate } from "../helper/validate";
-import {useAuthStore} from "../store/store.js"
+import { useAuthStore } from "../store/store.js";
 
 const Username = () => {
-  useAuthStore(state => console.log(state.auth.Username))
+  useAuthStore((state) => console.log(state.auth.Username));
   const formik = useFormik({
     initialValues: {
       username: "",
     },
     validate: usernameValidate,
-    validateOnBlur : false,
-    validateOnChange : false,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values) => {
       console.log(values);
     },
-  })
-
+  });
   return (
     <div className="container mx-auto">
-    <Toaster position="top-center" reverse={false}></Toaster>
+      <Toaster position="top-center" reverse={false}></Toaster>
       <div className="flex justify-center items-center h-screen">
         <div className={styles.glass}>
           <div className="title flex flex-col items-center">
@@ -36,8 +35,16 @@ const Username = () => {
               <img src={avatar} className={styles.profile_img} alt="avatar" />
             </div>
             <div className="textbox flex flex-col items-center gap-6 ">
-              <input {...formik.getFieldProps("username")} className={styles.textbox} type="text" placeholder="username" />
-              <button className={styles.btn} type="submit"> Let Go </button>
+              <input
+                {...formik.getFieldProps("username")}
+                className={styles.textbox}
+                type="text"
+                placeholder="username"
+              />
+              <button className={styles.btn} type="submit">
+                {" "}
+                Let Go{" "}
+              </button>
             </div>
             <div className="text-center py-4">
               <span className="text-gray-500">

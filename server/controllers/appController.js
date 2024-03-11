@@ -67,10 +67,10 @@ export async function register(req, res) {
               .then((result) =>
                 res.status(201).send({
                   msg: "User registered successfully",
-                })
+                }),
               )
               .catch((error) =>
-                res.status(500).send({ error: "Error saving user" })
+                res.status(500).send({ error: "Error saving user" }),
               );
           })
           .catch((error) => {
@@ -106,7 +106,7 @@ export async function login(req, res) {
                 username: user.username,
               },
               ENV.JWT_SECRET,
-              { expiresIn: "24h" }
+              { expiresIn: "24h" },
             );
             return res.status(200).send({
               msg: "Login Successfully...!",
@@ -200,7 +200,8 @@ export async function createResetSession(req, res) {
 
 export async function resetPassword(req, res) {
   try {
-    if(!req.app.locals.resetSession) return res.status(440).send({error: "Session expired!"})
+    if (!req.app.locals.resetSession)
+      return res.status(440).send({ error: "Session expired!" });
     const { username, password } = req.body;
     try {
       UserModel.findOne({ username })
@@ -210,7 +211,7 @@ export async function resetPassword(req, res) {
             .then((hashedPassword) => {
               UserModel.updateOne(
                 { username: user.username },
-                { password: hashedPassword }
+                { password: hashedPassword },
               )
                 .then((data) => {
                   req.app.locals.resetSession = false;

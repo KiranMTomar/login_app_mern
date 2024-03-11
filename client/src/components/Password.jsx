@@ -10,15 +10,15 @@ const Password = () => {
       password: "",
     },
     validate: passwordValidate,
-    validateOnBlur : false,
-    validateOnChange : false,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values) => {
       console.log(values);
     },
-  })
+  });
   return (
     <div className="container mx-auto">
-    <Toaster position="top-center" reverse={false}></Toaster>
+      <Toaster position="top-center" reverse={false}></Toaster>
       <div className="flex justify-center items-center h-screen">
         <div className={styles.glass}>
           <div className="title flex flex-col items-center">
@@ -32,8 +32,16 @@ const Password = () => {
               <img src={avatar} className={styles.profile_img} alt="avatar" />
             </div>
             <div className="textbox flex flex-col items-center gap-6 ">
-              <input {...formik.getFieldProps("password")} className={styles.textbox} type="password" placeholder="Password" />
-              <button className={styles.btn} type="submit"> Sign In </button>
+              <input
+                {...formik.getFieldProps("password")}
+                className={styles.textbox}
+                type="password"
+                placeholder="Password"
+              />
+              <button className={styles.btn} type="submit">
+                {" "}
+                Sign In{" "}
+              </button>
             </div>
             <div className="text-center py-4">
               <span className="text-gray-500">
@@ -47,7 +55,7 @@ const Password = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Password
+export default Password;
