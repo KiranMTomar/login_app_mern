@@ -1,6 +1,7 @@
 import axios from "axios";
+import ENV from "../../config"
 
-axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
+axios.defaults.baseURL = ENV.REACT_APP_SERVER_DOMAIN;
 //** make API request */
 
 /** authenticate function */
