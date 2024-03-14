@@ -1,19 +1,20 @@
 import styles from "../styles/Username.module.css";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { registerValidation } from "../helper/validate";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/profile.png";
 import { useState } from "react";
 import convertToBase64 from "../helper/convert";
+import { registerUser } from "../helper/helper";
 
 const Register = () => {
   const [file, setFile] = useState("");
-
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      email: "doyol56239@cnogs.com",
-      username: "example123",
+      email: "",
+      username: "",
       password: "admin@123",
     },
     validate: registerValidation,
@@ -21,15 +22,15 @@ const Register = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       values = await Object.assign(values, { profile: file || "" });
-      console.log(values);
-      // let registerPromise = registerUser(values)
-      // toast.promise(registerPromise, {
-      //   loading: 'Creating...',
-      //   success : <b>Register Successfully...!</b>,
-      //   error : <b>Could not Register.</b>
-      // });
+      // registerUser(values);
+      let registerPromise = registerUser(values)
+      toast.promise(registerPromise, {
+        loading: 'Creating...',
+        success : <b>Register Successfully...!</b>,
+        error : <b>Could not Register.</b>
+      });
 
-      // registerPromise.then(function(){ navigate('/')});
+      registerPromise.then(function(){ navigate('/')});
     },
   });
   const onUpload = async (e) => {

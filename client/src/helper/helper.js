@@ -1,8 +1,17 @@
 import axios from "axios";
-import ENV from "../../config"
-
+import { jwtDecode} from "jwt-decode";
+import ENV from "../../config";
 axios.defaults.baseURL = ENV.REACT_APP_SERVER_DOMAIN;
-//** make API request */
+
+/** Make API Requests */
+
+/** To get username from Token */
+export async function getUsername() {
+  const token = localStorage.getItem("token");
+  if (!token) return Promise.reject("Cannot find Token");
+  let decode = jwtDecode(token);
+  return decode;
+}
 
 /** authenticate function */
 export async function authenticate(username) {
@@ -17,9 +26,9 @@ export async function authenticate(username) {
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(`/api/user/${username}`);
-    return { data };
+    return data.rest;
   } catch (error) {
-    return { error: "Password doesn't match...!" };
+    return { error: "Password doesn't Match...!" };
   }
 }
 
@@ -30,7 +39,9 @@ export async function registerUser(credentials) {
       data: { msg },
       status,
     } = await axios.post(`/api/register`, credentials);
+
     let { username, email } = credentials;
+
     /** send email */
     if (status === 201) {
       await axios.post("/api/registerMail", {
@@ -39,12 +50,14 @@ export async function registerUser(credentials) {
         text: msg,
       });
     }
+
+    return Promise.resolve(msg);
   } catch (error) {
     return Promise.reject({ error });
   }
 }
 
-/**login function */
+/** login function */
 export async function verifyPassword({ username, password }) {
   try {
     if (username) {
@@ -52,7 +65,7 @@ export async function verifyPassword({ username, password }) {
       return Promise.resolve({ data });
     }
   } catch (error) {
-    return Promise.reject({ error: "Password doesn't match...!" });
+    return Promise.reject({ error: "Password doesn't Match...!" });
   }
 }
 
@@ -63,9 +76,10 @@ export async function updateUser(response) {
     const data = await axios.put("/api/updateuser", response, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return Promise.resolve({ data });
   } catch (error) {
-    return Promise.reject({ error: "Couldn't update profile...!" });
+    return Promise.reject({ error: "Couldn't Update Profile...!" });
   }
 }
 
@@ -80,7 +94,7 @@ export async function generateOTP(username) {
     // send mail with the OTP
     if (status === 201) {
       let {
-        data: { email },
+        email 
       } = await getUser({ username });
       let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
       await axios.post("/api/registerMail", {
@@ -88,7 +102,7 @@ export async function generateOTP(username) {
         userEmail: email,
         text,
         subject: "Password Recovery OTP",
-      });
+      })
     }
     return Promise.resolve(code);
   } catch (error) {
